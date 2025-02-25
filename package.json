@@ -1,0 +1,26 @@
+{
+  "name": "bsi-smartchoice",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.0.8",
+    "axios": "^1.7.9",
+    "lucide-vue-next": "^0.475.0",
+    "prettier": "^3.5.2",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.8",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.0.8",
+    "vite": "^6.1.0"
+  }
+}

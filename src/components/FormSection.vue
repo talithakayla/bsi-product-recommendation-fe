@@ -1,5 +1,5 @@
 <template>
-    <main class="max-w-6xl mx-auto mt-10 px-4">
+    <main class="max-w-6xl pl-[200px] mt-10 px-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
   
         <!-- Form Section -->

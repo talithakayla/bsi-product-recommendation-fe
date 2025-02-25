@@ -5,8 +5,7 @@
         <!-- Form Section -->
         <div>
           <div class="flex items-center mb-6">
-            <h3 class="text-2xl font-semibold text-black-500 mr-2 mt-3">Smart Choice by</h3>
-            <img src="../assets/Bank_Syariah_Indonesia.svg.png" alt="Bank Syariah Indonesia" class="h-8 w-auto" />
+            <img src="../assets/Frame 8.png" alt="Bank Syariah Indonesia" class="h-11 w-auto" />
           </div>
           <div class="bg-white rounded-2xl p-6 border border-black-100">
             <form @submit.prevent="submitForm" class="space-y-4">

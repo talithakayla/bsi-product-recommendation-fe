@@ -3,6 +3,7 @@
     <HeaderSection />
     <HeroSection />
     <FormSection />
+    <FooterSection />
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 import HeaderSection from './components/HeaderSection.vue';
 import HeroSection from './components/HeroSection.vue';
 import FormSection from './components/FormSection.vue';
+import FooterSection from './components/FooterSection.vue';
 </script>
 
 <style>

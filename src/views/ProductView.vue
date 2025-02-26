@@ -12,7 +12,7 @@
       <img
         :src="productData.image_uri"
         alt=""
-        class="w-full mt-6 max-h-[200px] opacity-50 brightness-[10%] object-cover rounded-[10px]"
+        class="w-full mt-6 max-h-[200px] opacity-100 brightness-[50%] object-cover rounded-[10px]"
       />
       <div
         class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full"

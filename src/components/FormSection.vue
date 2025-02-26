@@ -295,7 +295,7 @@
             >
               <a :href="`products/${product.alias}`" target="_blank">
                 <img
-                  src="../assets/logo-bsi.png"
+                  :src="product.image_uri"
                   alt="Rekomendasi"
                   class="w-full h-[110px] object-cover"
                 />
@@ -326,7 +326,7 @@
             >
               <a :href="`products/${product.alias}`" target="_blank">
                 <img
-                  src="../assets/logo-bsi.png"
+                  :src="product.image_uri"
                   alt="Rekomendasi"
                   class="w-full h-[110px] object-cover"
                 />

@@ -368,7 +368,7 @@ import axios from "axios";
 const showModal = ref(false);
 const showAlertModal = ref(false);
 const isChoiceClicked = ref(false);
-const user_id = ref(null);
+const user_input_id = ref(null);
 const form = reactive({
   gender: "",
   age: "",
@@ -379,26 +379,21 @@ const form = reactive({
 });
 const provinces = ref([]);
 const recommendations = ref([]);
+const carouselItems = ref([]);
 
-const carouselItems = ref([
-  {
-    image: new URL("../assets/logo-bsi.png", import.meta.url).href,
-    title: "BSI Simpanan Pelajar",
-    description: "Menabung jadi SimPel",
-  },
-  {
-    image: new URL("../assets/logo-bsi.png", import.meta.url).href,
-    title: "Tabungan Haji BSI",
-    description: "Mudahkan Impian Haji",
-  },
-  {
-    image: new URL("../assets/logo-bsi.png", import.meta.url).href,
-    title: "Investasi Emas BSI",
-    description: "Masa Depan Lebih Baik",
-  },
-]);
+const getAllProducts = async () => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/products`
+    );
 
-const fetchProvinces = async () => {
+    carouselItems.value = response.data.datas;
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+};
+
+const getAllProvinces = async () => {
   try {
     const response = await axios.get(
       `${import.meta.env.VITE_API_URL}/provinces`
@@ -407,14 +402,13 @@ const fetchProvinces = async () => {
       throw new Error("Failed to fetch provinces");
     }
     provinces.value = response.data.datas;
-
-    console.log("PROVINCES", response.data.datas);
   } catch (error) {
-    console.error("Error fetching provinces:", error);
+    throw new Error("Something went wrong");
   }
 };
 
-onMounted(fetchProvinces);
+onMounted(getAllProvinces);
+onMounted(getAllProducts);
 
 const allowOnlyNumbers = (e) => {
   const allowedKeys = ["Backspace", "ArrowLeft", "ArrowRight", "Tab", "Delete"];
@@ -436,7 +430,7 @@ const handleClick = async () => {
 const postUserChoice = async (choice) => {
   try {
     const requestBody = {
-      user_id: user_id.value,
+      user_input_id: user_input_id.value,
       choice: choice,
     };
 
@@ -473,7 +467,7 @@ const submitForm = async () => {
     }
 
     recommendations.value = response.data.products.slice(0, 7);
-    user_id.value = response.data.user_id;
+    user_input_id.value = response.data.user_input_id;
   } catch (err) {
     console.error("Error fetching recommendations:", err);
   }

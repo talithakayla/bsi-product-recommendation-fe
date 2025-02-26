@@ -1,0 +1,11 @@
+services:
+  vue-app:
+    build: .
+    restart: always
+    networks:
+      - multimatics
+    ports:
+      - "80:80"
+
+networks:
+  multimatics:

@@ -291,15 +291,14 @@
           <h4 class="text-lg font-semibold text-gray-800 mb-3 pb-1 text-center">
             Kami Menemukan Produk Terbaik untuk Kamu
           </h4>
-          <div class="flex justify-center flex-wrap gap-5 max-w-fit mx-auto">
+          <div class="flex justify-between gap-x-2 mb-4 max-w-fit mx-auto">
             <div
-              v-for="(product, index) in recommendations"
+              v-for="(product, index) in recommendations.slice(0, 3)"
               :key="index"
               @click="handleClick(product)"
-              class="rounded-lg border border-gray-200 overflow-hidden cursor-pointer transition duration-200 hover:bg-[#00A39D] group"
-              style="width: 160px; height: 190px"
+              class="rounded-lg border border-gray-200 overflow-hidden cursor-pointer transition duration-200 hover:bg-[#00A39D] group w-[200px] h-[230px]"
             >
-              <RouterLink :to="`products/${product}`">
+              <a :href="`products/${product.alias}`" target="_blank">
                 <img
                   src="../assets/logo-bsi.png"
                   alt="Rekomendasi"
@@ -310,17 +309,48 @@
                     <h5
                       class="font-medium text-xs text-gray-800 group-hover:text-white"
                     >
-                      {{ product }}
+                      {{ product.name }}
                     </h5>
-                    <span class="text-gray-600 text-base group-hover:text-white"
-                      >&gt;</span
+                    <span class="text-gray-600 text-xs group-hover:text-white"
+                      >&rarr;</span
                     >
                   </div>
                   <p class="text-[10px] text-gray-600 group-hover:text-white">
-                    Solusi keuangan sesuai pilihanmu
+                    {{ product.desc }}
                   </p>
                 </div>
-              </RouterLink>
+              </a>
+            </div>
+          </div>
+          <div class="flex justify-between gap-x-2 max-w-fit mx-auto">
+            <div
+              v-for="(product, index) in recommendations.slice(3, 7)"
+              :key="index"
+              @click="handleClick(product)"
+              class="rounded-lg border border-gray-200 overflow-hidden cursor-pointer transition duration-200 hover:bg-[#00A39D] group w-[160px] h-[190px]"
+            >
+              <a :href="`products/${product.alias}`" target="_blank">
+                <img
+                  src="../assets/logo-bsi.png"
+                  alt="Rekomendasi"
+                  class="w-full h-[110px] object-cover"
+                />
+                <div class="p-2 mx-[8px]">
+                  <div class="flex justify-between items-center">
+                    <h5
+                      class="font-medium text-xs text-gray-800 group-hover:text-white"
+                    >
+                      {{ product.name }}
+                    </h5>
+                    <span class="text-gray-600 text-xs group-hover:text-white"
+                      >&rarr;</span
+                    >
+                  </div>
+                  <p class="text-[10px] text-gray-600 group-hover:text-white">
+                    {{ product.desc }}
+                  </p>
+                </div>
+              </a>
             </div>
           </div>
         </div>
@@ -415,7 +445,7 @@ const submitForm = async () => {
       throw new Error("Something went wrong");
     }
 
-    recommendations.value = response.data.products;
+    recommendations.value = response.data.products.slice(0, 7);
   } catch (err) {
     console.error("Error fetching recommendations:", err);
   }

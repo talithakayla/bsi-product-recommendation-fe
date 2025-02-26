@@ -1,21 +1,19 @@
 <template>
-  <div class="min-h-screen bg-white-100">
+  <main class="min-h-screen bg-white-100">
     <HeaderSection />
-    <HeroSection />
-    <FormSection />
+    <RouterView />
     <FooterSection />
-  </div>
+  </main>
 </template>
 
 <script setup>
-import HeaderSection from './components/HeaderSection.vue';
-import HeroSection from './components/HeroSection.vue';
-import FormSection from './components/FormSection.vue';
-import FooterSection from './components/FooterSection.vue';
+import { RouterView } from "vue-router";
+import FooterSection from "./components/FooterSection.vue";
+import HeaderSection from "./components/HeaderSection.vue";
 </script>
 
 <style>
 body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
 }
 </style>

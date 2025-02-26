@@ -47,11 +47,13 @@
       </ul>
     </div>
     <div>
-      <button
+      <a
+        href="https://play.google.com/store/apps/details?id=co.id.bankbsi.superapp&hl=id"
+        target="_blank"
         class="flex flex-row justify-between bg-[#F7AF2E] text-white px-[30px] py-3 rounded-[10px] ml-auto cursor-pointer hover:brightness-[85%] transition-all my-[50px] font-semibold"
       >
         Ajukan Sekarang <span class="ml-[84px]">&rarr;</span>
-      </button>
+      </a>
     </div>
   </section>
 </template>

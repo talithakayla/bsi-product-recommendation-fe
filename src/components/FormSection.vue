@@ -23,6 +23,7 @@
                 :class="[
                   form.gender ? 'text-black' : 'text-gray-400',
                   'w-full border rounded-lg p-2 text-sm',
+                  errors.gender ? 'border-red-500' : 'border-gray-400'
                 ]"
                 required
               >
@@ -48,7 +49,8 @@
                 :class="
                   form.age
                     ? 'border-black text-black'
-                    : 'border-gray-400 text-gray-800'
+                    : 'border-gray-400 text-gray-800',
+                    errors.age ? 'border-red-500' : 'border-gray-400'
                 "
                 placeholder="Masukkan umur anda (Tahun)"
                 @keydown="allowOnlyNumbers"
@@ -64,8 +66,9 @@
                 v-model="form.job"
                 @change="clearError('job')"
                 :class="[
+                  'w-full rounded-lg p-2 text-sm border', // Pastikan 'border' selalu ada
                   form.job ? 'text-black' : 'text-gray-400',
-                  'w-full border rounded-lg p-2 text-sm',
+                  errors.job ? 'border-red-500' : 'border-gray-400'
                 ]"
                 required
               >
@@ -90,6 +93,7 @@
                 :class="[
                   form.salary ? 'text-black' : 'text-gray-400',
                   'w-full border rounded-lg p-2 text-sm',
+                  errors.salary ? 'border-red-500' : 'border-gray-400'
                 ]"
                 required
               >
@@ -115,6 +119,7 @@
                 :class="[
                   form.location ? 'text-black' : 'text-gray-400',
                   'w-full border rounded-lg p-2 text-sm',
+                  errors.location ? 'border-red-500' : 'border-gray-400'
                 ]"
                 required
               >
@@ -427,7 +432,13 @@ const errors = reactive({
 
 const validateForm = () => {
   errors.gender = form.gender ? "" : "Silakan pilih jenis kelamin Anda";
-  errors.age = form.age ? "" : "Umur harus 12 tahun ke atas";
+  if (!form.age) {
+    errors.age = "Silakan isi umur Anda";
+  } else if (form.age <= 12) {
+    errors.age = "Umur harus 12 tahun ke atas";
+  } else {
+    errors.age = "";
+  }
   errors.job = form.job ? "" : "Silakan pilih jenis pekerjaan Anda";
   errors.salary = form.salary
     ? ""

@@ -5,12 +5,12 @@
         <img src="../assets/Bank_Syariah_Indonesia.svg.png" alt="BSI Logo" class="w-[180px] h-[50px]" />
       </div>
       <nav class="space-x-4 text-gray-600 text-sm">
-        <a href="#" class="hover:text-orange-500">BSI SmartChoice</a>
-        <a href="#" class="hover:text-orange-500">Produk dan Layanan</a>
-        <a href="#" class="hover:text-orange-500">Prioritas</a>
-        <a href="#" class="hover:text-orange-500">Berita & Pembaruan</a>
-        <a href="#" class="hover:text-orange-500">Informasi Perusahaan</a>
-        <a href="#" class="hover:text-orange-500">Hubungan Investor</a>
+        <a href="#" class="text-[#F7AF2E]">BSI SmartChoice</a>
+        <a href="#" class="hover:text-[#F7AF2E]">Produk dan Layanan</a>
+        <a href="#" class="hover:text-[#F7AF2E]">Prioritas</a>
+        <a href="#" class="hover:text-[#F7AF2E]">Berita & Pembaruan</a>
+        <a href="#" class="hover:text-[#F7AF2E]">Informasi Perusahaan</a>
+        <a href="#" class="hover:text-[#F7AF2E]">Hubungan Investor</a>
       </nav>
       <div class="flex items-center pr-[60px]">
         <img src="../assets/Group 6.png" alt="BSI SmartChoice Logo" class="w-[78.8px] h-[63px]" />

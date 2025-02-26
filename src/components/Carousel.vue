@@ -7,8 +7,8 @@
         class="w-full max-w-lg"
       >
         <swiper-slide v-for="(item, index) in items" :key="index">
-          <div class="overflow-hidden mt-[65px]">
-            <img :src="item.image" :alt="item.title" class="w-full h-[400px] object-cover rounded-[10px]" />
+          <div class="overflow-hidden mt-[60px]">
+            <img :src="item.image" :alt="item.title" class="w-full h-full object-cover rounded-[10px]" />
             <div class="p-4">
                 <h3 class="text-lg font-semibold text-[#00A39D] flex justify-center hover:underline hover:decoration-[#00A39D]">
                     {{ item.title }}

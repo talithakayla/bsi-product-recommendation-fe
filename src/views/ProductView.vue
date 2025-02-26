@@ -10,7 +10,7 @@
     </a>
     <div class="relative w-full mx-auto">
       <img
-        src="https://placehold.co/600x400.png"
+        :src="productData.image_uri"
         alt=""
         class="w-full mt-6 max-h-[200px] opacity-50 brightness-[10%] object-cover rounded-[10px]"
       />
@@ -18,7 +18,7 @@
         class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
       >
         <h1 class="text-center text-white text-[40px] leading-6 font-extrabold">
-          E-MAS
+          {{ productData.name }}
         </h1>
         <p class="mt-7 text-3xl text-white text-center">
           Akses investasi emas mudah dalam genggaman
@@ -28,9 +28,7 @@
     <div class="mt-5">
       <h2 class="font-semibold text-4xl">Gambaran Umum</h2>
       <p class="mt-4 leading-[150%] text-xl">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus,
-        consectetur numquam. Voluptatum aliquid fugit perferendis amet nobis
-        assumenda quo sint?
+        {{ productData.details }}
       </p>
     </div>
     <hr class="text-[#D9D9D9] mt-6" />
@@ -38,13 +36,13 @@
       <h2 class="font-semibold text-4xl mt-6">Keunggulan</h2>
       <ul class="flex flex-row gap-5 mt-[30px]">
         <li
-          v-for="excellence in excellences"
-          :key="excellence.id"
+          v-for="(data, id) in productData.benefits"
+          :key="id"
           class="w-full bg-[#00A39D] rounded-[10px] p-5 text-white"
         >
-          <span class="font-bold">{{ excellence.id }}</span>
-          <h3 class="font-bold mt-4">{{ excellence.heading }}</h3>
-          <p class="mt-4">{{ excellence.desc }}</p>
+          <span class="font-bold">0{{ id + 1 }}</span>
+          <h3 class="font-bold mt-4">{{ data.split("-")[0] }}</h3>
+          <p class="mt-4">{{ data.split("-")[1] }}</p>
         </li>
       </ul>
     </div>
@@ -60,31 +58,40 @@
 
 <script setup>
 import { useRoute } from "vue-router";
+import axios from "axios";
+import { onMounted, reactive, ref } from "vue";
 
 const route = useRoute();
 
-const excellences = [
-  {
-    id: "01",
-    heading: "Terjangkau",
-    desc: "Investasi terjangkau",
-  },
-  {
-    id: "02",
-    heading: "Tertidur",
-    desc: "Investasi tertidur",
-  },
-  {
-    id: "03",
-    heading: "Terkaya",
-    desc: "Investasi terkaya",
-  },
-  {
-    id: "04",
-    heading: "Terlelap",
-    desc: "Investasi terlelap",
-  },
-];
+const productData = reactive({
+  alias: "",
+  benefits: "",
+  desc: "",
+  details: "",
+  image_uri: "",
+  id: 0,
+  name: "",
+});
+
+const getProductData = async () => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/products/${route.params.id}`
+    );
+
+    productData.id = response.data.datas.id;
+    productData.alias = response.data.datas.alias;
+    productData.benefits = response.data.datas.benefits;
+    productData.desc = response.data.datas.desc;
+    productData.details = response.data.datas.details;
+    productData.image_uri = response.data.datas.image_uri;
+    productData.name = response.data.datas.name;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+onMounted(getProductData);
 </script>
 
 <style></style>

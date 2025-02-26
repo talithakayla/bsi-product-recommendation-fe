@@ -23,7 +23,7 @@
                 :class="[
                   form.gender ? 'text-black' : 'text-gray-400',
                   'w-full border rounded-lg p-2 text-sm',
-                  errors.gender ? 'border-red-500' : 'border-gray-400'
+                  errors.gender ? 'border-red-500' : 'border-gray-400',
                 ]"
                 required
               >
@@ -47,10 +47,10 @@
                 pattern="[0-9]*"
                 class="w-full rounded-lg p-2 text-sm border focus:ring-0 focus:border-[#00A39D]"
                 :class="
-                  form.age
+                  (form.age
                     ? 'border-black text-black'
                     : 'border-gray-400 text-gray-800',
-                    errors.age ? 'border-red-500' : 'border-gray-400'
+                  errors.age ? 'border-red-500' : 'border-gray-400')
                 "
                 placeholder="Masukkan umur anda (Tahun)"
                 @keydown="allowOnlyNumbers"
@@ -68,7 +68,7 @@
                 :class="[
                   'w-full rounded-lg p-2 text-sm border', // Pastikan 'border' selalu ada
                   form.job ? 'text-black' : 'text-gray-400',
-                  errors.job ? 'border-red-500' : 'border-gray-400'
+                  errors.job ? 'border-red-500' : 'border-gray-400',
                 ]"
                 required
               >
@@ -93,7 +93,7 @@
                 :class="[
                   form.salary ? 'text-black' : 'text-gray-400',
                   'w-full border rounded-lg p-2 text-sm',
-                  errors.salary ? 'border-red-500' : 'border-gray-400'
+                  errors.salary ? 'border-red-500' : 'border-gray-400',
                 ]"
                 required
               >
@@ -119,7 +119,7 @@
                 :class="[
                   form.location ? 'text-black' : 'text-gray-400',
                   'w-full border rounded-lg p-2 text-sm',
-                  errors.location ? 'border-red-500' : 'border-gray-400'
+                  errors.location ? 'border-red-500' : 'border-gray-400',
                 ]"
                 required
               >
@@ -129,10 +129,10 @@
                 <option
                   v-for="province in provinces"
                   :key="province.id"
-                  :value="province.text"
+                  :value="province.name"
                   class="text-black"
                 >
-                  {{ province.text }}
+                  {{ province.name }}
                 </option>
               </select>
               <p v-if="errors.location" class="text-red-500 text-xs mt-1">
@@ -295,7 +295,7 @@
             <div
               v-for="(product, index) in recommendations.slice(0, 3)"
               :key="index"
-              @click="handleClick(product)"
+              @click="postUserChoice(product.name)"
               class="rounded-lg border border-gray-200 overflow-hidden cursor-pointer transition duration-200 hover:bg-[#00A39D] group w-[200px] h-[230px]"
             >
               <a :href="`products/${product.alias}`" target="_blank">
@@ -326,7 +326,7 @@
             <div
               v-for="(product, index) in recommendations.slice(3, 7)"
               :key="index"
-              @click="handleClick(product)"
+              @click="postUserChoice(product.name)"
               class="rounded-lg border border-gray-200 overflow-hidden cursor-pointer transition duration-200 hover:bg-[#00A39D] group w-[160px] h-[190px]"
             >
               <a :href="`products/${product.alias}`" target="_blank">
@@ -367,7 +367,8 @@ import axios from "axios";
 
 const showModal = ref(false);
 const showAlertModal = ref(false);
-
+const isChoiceClicked = ref(false);
+const user_id = ref(null);
 const form = reactive({
   gender: "",
   age: "",
@@ -399,9 +400,15 @@ const carouselItems = ref([
 
 const fetchProvinces = async () => {
   try {
-    const response = await fetch("http://localhost:3000/province");
-    if (!response.ok) throw new Error("Failed to fetch provinces");
-    provinces.value = (await response.json()).result;
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/provinces`
+    );
+    if (response.status !== 200) {
+      throw new Error("Failed to fetch provinces");
+    }
+    provinces.value = response.data.datas;
+
+    console.log("PROVINCES", response.data.datas);
   } catch (error) {
     console.error("Error fetching provinces:", error);
   }
@@ -426,6 +433,26 @@ const handleClick = async () => {
   }
 };
 
+const postUserChoice = async (choice) => {
+  try {
+    const requestBody = {
+      user_id: user_id.value,
+      choice: choice,
+    };
+
+    if (!isChoiceClicked.value) {
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/user-choices`,
+        requestBody
+      );
+
+      isChoiceClicked.value = true;
+    }
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
+};
+
 const submitForm = async () => {
   try {
     const requestBody = {
@@ -446,6 +473,7 @@ const submitForm = async () => {
     }
 
     recommendations.value = response.data.products.slice(0, 7);
+    user_id.value = response.data.user_id;
   } catch (err) {
     console.error("Error fetching recommendations:", err);
   }

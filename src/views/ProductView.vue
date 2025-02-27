@@ -13,7 +13,7 @@
           {{ productData.name }}
         </h1>
         <p class="mt-7 text-3xl text-white text-center">
-          {{ productData.details }}
+          {{ productData.desc }}
         </p>
       </div>
     </div>

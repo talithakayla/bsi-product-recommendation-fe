@@ -1,8 +1,10 @@
 <template>
   <main class="w-full px-4 mt-10 mb-[50px]">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <div>
-        <div class="flex items-center mb-6 ml-[200px]">
+        <div
+          class="flex items-center justify-center lg:justify-normal mb-6 lg:ml-[200px]"
+        >
           <img
             src="../assets/sc-logo-form.png"
             alt="Bank Syariah Indonesia"
@@ -10,7 +12,7 @@
           />
         </div>
         <div
-          class="bg-white rounded-2xl p-6 border border-black max-w-md mx-auto ml-[200px]"
+          class="bg-white rounded-2xl p-6 border border-black max-w-md mx-auto lg:ml-[200px]"
         >
           <form @submit.prevent="submitForm" class="flex flex-col gap-4">
             <div class="flex flex-col">

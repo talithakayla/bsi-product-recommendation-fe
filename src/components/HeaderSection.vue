@@ -9,7 +9,7 @@
         />
       </div>
       <nav class="space-x-4 text-gray-600 text-sm">
-        <a href="#" class="text-[#F7AF2E]">BSI SmartChoice</a>
+        <a href="/" class="text-[#F7AF2E]">BSI SmartChoice</a>
         <a href="#" class="hover:text-[#F7AF2E]">Produk dan Layanan</a>
         <a href="#" class="hover:text-[#F7AF2E]">Prioritas</a>
         <a href="#" class="hover:text-[#F7AF2E]">Berita & Pembaruan</a>

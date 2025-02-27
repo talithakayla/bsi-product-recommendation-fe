@@ -18,15 +18,19 @@
       </div>
     </div>
     <div class="mt-5">
-      <h2 class="font-semibold text-4xl">Gambaran Umum</h2>
+      <h2 class="font-semibold text-4xl text-center lg:text-left">
+        Gambaran Umum
+      </h2>
       <p class="mt-4 leading-[150%] text-xl">
         {{ productData.details }}
       </p>
     </div>
     <hr class="text-[#D9D9D9] mt-6" />
     <div>
-      <h2 class="font-semibold text-4xl mt-6">Keunggulan</h2>
-      <ul class="flex flex-row gap-5 mt-[30px]">
+      <h2 class="font-semibold text-4xl mt-6 text-center lg:text-left">
+        Keunggulan
+      </h2>
+      <ul class="flex flex-col lg:flex-row gap-5 mt-[30px]">
         <li
           v-for="(data, id) in productData.benefits"
           :key="id"
@@ -39,7 +43,7 @@
       </ul>
     </div>
     <button
-      class="flex flex-row justify-between bg-[#F7AF2E] text-white px-[30px] py-3 rounded-[10px] cursor-pointer hover:brightness-[85%] transition-all my-[50px] font-semibold ml-auto"
+      class="flex flex-row justify-between bg-[#F7AF2E] text-white px-[30px] py-3 rounded-[10px] cursor-pointer hover:brightness-[85%] transition-all my-[50px] font-semibold mx-auto lg:ml-auto lg:mr-0"
     >
       <a
         href="https://play.google.com/store/apps/details?id=co.id.bankbsi.superapp&hl=id"

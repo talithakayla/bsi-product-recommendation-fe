@@ -8,7 +8,7 @@
     >
       <swiper-slide v-for="(item, index) in items" :key="index">
         <div class="overflow-hidden mt-[60px]">
-          <a :href="`products/${item.alias}`" target="_blank">
+          <a :href="`products/${item.alias}`" target="_blank" class="group">
             <img
               :src="item.image_uri"
               :alt="item.alias"
@@ -16,7 +16,7 @@
             />
             <div class="p-4">
               <h3
-                class="text-lg font-semibold text-[#00A39D] flex justify-center hover:underline hover:decoration-[#00A39D]"
+                class="text-lg font-semibold text-[#00A39D] flex justify-center group-hover:underline decoration-2 decoration-[#00A39D]"
               >
                 {{ item.name }}
               </h3>

@@ -284,14 +284,22 @@
       </div>
       <div>
         <Carousel v-if="!recommendations.length" :items="carouselItems" />
-        <div
-          v-else
-          class="mr-[30px] border border-black-100 rounded-2xl p-6 mt-[45px]"
-        >
-          <h4 class="text-lg font-semibold text-gray-800 mb-3 pb-1 text-center">
-            Kami Menemukan Produk Terbaik untuk Kamu
-          </h4>
-          <div class="flex justify-between gap-x-2 mb-4 max-w-fit mx-auto">
+        <div v-else class="mr-[30px] rounded-2xl p-6 mt-[45px]">
+          <div
+            class="flex items-center bg-[#00A39D] rounded-[10px] py-4 px-6 gap-x-8"
+          >
+            <div>
+              <p class="text-white text-center">Kamu adalah...</p>
+              <p class="text-white font-extrabold text-2xl text-center">
+                {{ segmentation.name }}
+              </p>
+            </div>
+            <div class="min-h-20 w-[2px] bg-white" />
+            <p class="text-white font-semibold text-sm">
+              {{ segmentation.desc }}
+            </p>
+          </div>
+          <div class="flex justify-between gap-x-2 my-4 max-w-fit mx-auto">
             <div
               v-for="(product, index) in recommendations.slice(0, 3)"
               :key="index"
@@ -380,6 +388,7 @@ const form = reactive({
 const provinces = ref([]);
 const recommendations = ref([]);
 const carouselItems = ref([]);
+const segmentation = ref("");
 
 const getAllProducts = async () => {
   try {
@@ -466,6 +475,7 @@ const submitForm = async () => {
       throw new Error("Something went wrong");
     }
 
+    segmentation.value = response.data.segmentation;
     recommendations.value = response.data.products.slice(0, 7);
     user_input_id.value = response.data.user_input_id;
   } catch (err) {

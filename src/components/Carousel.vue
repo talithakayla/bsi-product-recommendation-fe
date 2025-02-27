@@ -8,21 +8,23 @@
     >
       <swiper-slide v-for="(item, index) in items" :key="index">
         <div class="overflow-hidden mt-[60px]">
-          <img
-            :src="item.image_uri"
-            :alt="item.alias"
-            class="w-full h-full object-cover rounded-[10px]"
-          />
-          <div class="p-4">
-            <h3
-              class="text-lg font-semibold text-[#00A39D] flex justify-center hover:underline hover:decoration-[#00A39D]"
-            >
-              {{ item.name }}
-            </h3>
-            <p class="text-sm text-gray-600 flex justify-center">
-              {{ item.desc }}
-            </p>
-          </div>
+          <a :href="`products/${item.alias}`" target="_blank">
+            <img
+              :src="item.image_uri"
+              :alt="item.alias"
+              class="w-full h-full object-cover rounded-[10px]"
+            />
+            <div class="p-4">
+              <h3
+                class="text-lg font-semibold text-[#00A39D] flex justify-center hover:underline hover:decoration-[#00A39D]"
+              >
+                {{ item.name }}
+              </h3>
+              <p class="text-sm text-gray-600 flex justify-center">
+                {{ item.desc }}
+              </p>
+            </div>
+          </a>
         </div>
       </swiper-slide>
     </swiper>
@@ -42,6 +44,4 @@ defineProps({
     required: true,
   },
 });
-
-// console.log("CAROUSEL ITEMS", items);
 </script>

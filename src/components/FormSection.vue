@@ -40,7 +40,7 @@
             <div class="flex flex-col">
               <label class="block text-sm text-black-600 mb-1">Umur</label>
               <input
-                type="text"
+                type="number"
                 v-model.number="form.age"
                 @input="clearError('age')"
                 inputmode="numeric"
@@ -54,6 +54,7 @@
                 "
                 placeholder="Masukkan umur anda (Tahun)"
                 @keydown="allowOnlyNumbers"
+                min="12"
                 required
               />
               <p v-if="errors.age" class="text-red-500 text-xs mt-1">
@@ -252,7 +253,7 @@
                     <input
                       type="checkbox"
                       v-model="form.agree"
-                      @change="showModal = !form.agree"
+                      @change="showModal = !form.agree; clearError('agree')"
                       required
                     />
                     <label class="text-[15px] text-black-600"
@@ -398,7 +399,7 @@ const allowOnlyNumbers = (e) => {
 };
 
 const isFormValid = computed(() =>
-  Object.values(form).every((value) => value !== "" && value !== false)
+  Object.values(form).every((value) => {value !== "" && value !== false})
 );
 
 const handleClick = async () => {
@@ -471,7 +472,7 @@ const validateForm = () => {
   errors.gender = form.gender ? "" : "Silakan pilih jenis kelamin Anda";
   if (!form.age) {
     errors.age = "Silakan isi umur Anda";
-  } else if (form.age <= 12) {
+  } else if (parseInt(form.age) <= 12) {
     errors.age = "Umur harus 12 tahun ke atas";
   } else {
     errors.age = "";
@@ -483,7 +484,7 @@ const validateForm = () => {
   errors.location = form.location ? "" : "Silakan pilih provinsi domisili Anda";
   errors.agree = form.agree
     ? ""
-    : "Silakan centang kotak persetujuan untuk melanjutkan.";
+    : "Silakan centang kotak persetujuan untuk melanjutkan";
 };
 
 const closeModal = () => {

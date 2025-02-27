@@ -42,7 +42,7 @@
             <div class="flex flex-col">
               <label class="block text-sm text-black-600 mb-1">Umur</label>
               <input
-                type="text"
+                type="number"
                 v-model.number="form.age"
                 @input="clearError('age')"
                 inputmode="numeric"
@@ -56,6 +56,7 @@
                 "
                 placeholder="Masukkan umur anda (Tahun)"
                 @keydown="allowOnlyNumbers"
+                min="12"
                 required
               />
               <p v-if="errors.age" class="text-red-500 text-xs mt-1">
@@ -254,10 +255,13 @@
                     <input
                       type="checkbox"
                       v-model="form.agree"
-                      @change="showModal = !form.agree"
+                      @change="
+                        showModal = !form.agree;
+                        clearError('agree');
+                      "
                       required
                     />
-                    <label class="text-xs text-gray-600"
+                    <label class="text-[15px] text-black-600"
                       >Dengan ini saya menyetujui ketentuan yang telah
                       disebutkan di atas.</label
                     >
@@ -285,8 +289,26 @@
         </div>
       </div>
       <div>
-        <Carousel v-if="!recommendations.length" :items="carouselItems" />
-        <div v-else class="mr-[30px] rounded-2xl p-6 mt-[45px]">
+        <Carousel
+          v-if="!recommendations.length && !loading"
+          :items="carouselItems"
+        />
+        <div v-if="loading" class="flex justify-center items-center h-40">
+          <div class="dot-loader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+        <div
+          v-if="recommendations.length > 0 && !loading"
+          class="mr-[30px] rounded-2xl p-6 mt-[45px]"
+        >
           <div
             class="flex items-center bg-[#00A39D] rounded-[10px] py-4 px-6 gap-x-8"
           >
@@ -379,6 +401,8 @@ const showModal = ref(false);
 const showAlertModal = ref(false);
 const isChoiceClicked = ref(false);
 const user_input_id = ref(null);
+const loading = ref(false);
+const formSubmitted = ref(false);
 const form = reactive({
   gender: "",
   age: "",
@@ -426,9 +450,17 @@ const allowOnlyNumbers = (e) => {
   if (!/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) e.preventDefault();
 };
 
-const isFormValid = computed(() =>
-  Object.values(form).every((value) => value !== "" && value !== false)
-);
+const isFormValid = computed(() => {
+  return (
+    form.gender.trim() !== "" &&
+    form.age !== "" &&
+    Number(form.age) >= 12 &&
+    form.job.trim() !== "" &&
+    form.salary.trim() !== "" &&
+    form.location.trim() !== "" &&
+    form.agree === true
+  );
+});
 
 const handleClick = async () => {
   if (isFormValid.value) {
@@ -460,6 +492,9 @@ const postUserChoice = async (choice) => {
 
 const submitForm = async () => {
   try {
+    loading.value = true;
+    formSubmitted.value = true;
+
     const requestBody = {
       job: parseInt(form.job),
       age: parseInt(form.age),
@@ -482,6 +517,8 @@ const submitForm = async () => {
     user_input_id.value = response.data.user_input_id;
   } catch (err) {
     console.error("Error fetching recommendations:", err);
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -496,9 +533,7 @@ const errors = reactive({
 
 const validateForm = () => {
   errors.gender = form.gender ? "" : "Silakan pilih jenis kelamin Anda";
-  if (!form.age) {
-    errors.age = "Silakan isi umur Anda";
-  } else if (form.age <= 12) {
+  if (parseInt(form.age) <= 12 || form.age === "") {
     errors.age = "Umur harus 12 tahun ke atas";
   } else {
     errors.age = "";
@@ -529,5 +564,83 @@ const clearError = (field) => {
 body {
   font-family: "Plus Jakarta Sans", sans-serif;
   overflow-x: hidden;
+}
+
+.dot-loader {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  position: relative;
+
+  width: 50px;
+
+  height: 50px;
+}
+
+.dot-loader div {
+  position: absolute;
+
+  width: 10px;
+
+  height: 10px;
+
+  background-color: #009688;
+
+  border-radius: 50%;
+
+  animation: dots 1.2s linear infinite;
+}
+
+.dot-loader div:nth-child(1) {
+  animation-delay: 0s;
+  transform: rotate(0deg) translateY(-20px);
+}
+
+.dot-loader div:nth-child(2) {
+  animation-delay: 0.15s;
+  transform: rotate(45deg) translateY(-20px);
+}
+
+.dot-loader div:nth-child(3) {
+  animation-delay: 0.3s;
+  transform: rotate(90deg) translateY(-20px);
+}
+
+.dot-loader div:nth-child(4) {
+  animation-delay: 0.45s;
+  transform: rotate(135deg) translateY(-20px);
+}
+
+.dot-loader div:nth-child(5) {
+  animation-delay: 0.6s;
+  transform: rotate(180deg) translateY(-20px);
+}
+
+.dot-loader div:nth-child(6) {
+  animation-delay: 0.75s;
+  transform: rotate(225deg) translateY(-20px);
+}
+
+.dot-loader div:nth-child(7) {
+  animation-delay: 0.9s;
+  transform: rotate(270deg) translateY(-20px);
+}
+
+.dot-loader div:nth-child(8) {
+  animation-delay: 1.05s;
+  transform: rotate(315deg) translateY(-20px);
+}
+
+@keyframes dots {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.2;
+  }
 }
 </style>

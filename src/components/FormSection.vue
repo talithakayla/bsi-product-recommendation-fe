@@ -533,7 +533,9 @@ const errors = reactive({
 
 const validateForm = () => {
   errors.gender = form.gender ? "" : "Silakan pilih jenis kelamin Anda";
-  if (parseInt(form.age) <= 12 || form.age === "") {
+  if (!form.age) {
+    errors.age = "Silakan isi umur Anda";
+  } else if (parseInt(form.age) <= 12 || form.age === "") {
     errors.age = "Umur harus 12 tahun ke atas";
   } else {
     errors.age = "";

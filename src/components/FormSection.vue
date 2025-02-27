@@ -165,7 +165,7 @@
               class="fixed inset-0 bg-black/30 flex justify-center items-center z-50 p-4"
             >
               <div
-                class="bg-white rounded-2xl pb-6 px-6 w-[700px] h-[498px] shadow-lg relative"
+                class="bg-white rounded-2xl pb-6 px-6 w-[550px] h-[498px] shadow-lg relative"
               >
                 <div class="bg-white z-10 min-h-[80px] pt-4">
                   <button
@@ -184,7 +184,7 @@
                 </div>
                 <div class="h-[400px] overflow-y-scroll">
                   <div
-                    class="text-sm text-gray-600 leading-relaxed space-y-4 px-4"
+                    class="text-sm text-black-600 leading-relaxed space-y-4 px-4"
                   >
                     <p>
                       Dengan menggunakan layanan ini, Anda menyetujui
@@ -255,7 +255,7 @@
                       @change="showModal = !form.agree"
                       required
                     />
-                    <label class="text-xs text-gray-600"
+                    <label class="text-[15px] text-black-600"
                       >Dengan ini saya menyetujui ketentuan yang telah
                       disebutkan di atas.</label
                     >
@@ -283,9 +283,21 @@
         </div>
       </div>
       <div>
-        <Carousel v-if="!recommendations.length" :items="carouselItems" />
+        <Carousel v-if="!recommendations.length && !loading" :items="carouselItems" />
+        <div v-if="loading" class="flex justify-center items-center h-40">
+        <div class="dot-loader">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
         <div
-          v-else
+          v-if="recommendations.length > 0 && !loading"
           class="mr-[30px] border border-black-100 rounded-2xl p-6 mt-[45px]"
         >
           <h4 class="text-lg font-semibold text-gray-800 mb-3 pb-1 text-center">
@@ -297,37 +309,6 @@
               :key="index"
               @click="postUserChoice(product.name)"
               class="rounded-lg border border-gray-200 overflow-hidden cursor-pointer transition duration-200 hover:bg-[#00A39D] group w-[200px] h-[230px]"
-            >
-              <a :href="`products/${product.alias}`" target="_blank">
-                <img
-                  :src="product.image_uri"
-                  alt="Rekomendasi"
-                  class="w-full h-[110px] object-cover"
-                />
-                <div class="p-2 mx-[8px]">
-                  <div class="flex justify-between items-center">
-                    <h5
-                      class="font-medium text-xs text-gray-800 group-hover:text-white"
-                    >
-                      {{ product.name }}
-                    </h5>
-                    <span class="text-gray-600 text-xs group-hover:text-white"
-                      >&rarr;</span
-                    >
-                  </div>
-                  <p class="text-[10px] text-gray-600 group-hover:text-white">
-                    {{ product.desc }}
-                  </p>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="flex justify-between gap-x-2 max-w-fit mx-auto">
-            <div
-              v-for="(product, index) in recommendations.slice(3, 7)"
-              :key="index"
-              @click="postUserChoice(product.name)"
-              class="rounded-lg border border-gray-200 overflow-hidden cursor-pointer transition duration-200 hover:bg-[#00A39D] group w-[160px] h-[190px]"
             >
               <a :href="`products/${product.alias}`" target="_blank">
                 <img
@@ -369,6 +350,8 @@ const showModal = ref(false);
 const showAlertModal = ref(false);
 const isChoiceClicked = ref(false);
 const user_input_id = ref(null);
+const loading = ref(false);
+const formSubmitted = ref(false);
 const form = reactive({
   gender: "",
   age: "",
@@ -386,7 +369,6 @@ const getAllProducts = async () => {
     const response = await axios.get(
       `${import.meta.env.VITE_API_URL}/products`
     );
-
     carouselItems.value = response.data.datas;
   } catch (error) {
     throw new Error("Something went wrong");
@@ -439,7 +421,6 @@ const postUserChoice = async (choice) => {
         `${import.meta.env.VITE_API_URL}/user-choices`,
         requestBody
       );
-
       isChoiceClicked.value = true;
     }
   } catch (error) {
@@ -449,6 +430,8 @@ const postUserChoice = async (choice) => {
 
 const submitForm = async () => {
   try {
+    loading.value = true;
+    formSubmitted.value = true;
     const requestBody = {
       job: parseInt(form.job),
       age: parseInt(form.age),
@@ -470,6 +453,8 @@ const submitForm = async () => {
     user_input_id.value = response.data.user_input_id;
   } catch (err) {
     console.error("Error fetching recommendations:", err);
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -518,4 +503,36 @@ body {
   font-family: "Plus Jakarta Sans", sans-serif;
   overflow-x: hidden;
 }
+.dot-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.dot-loader div {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #009688;
+  border-radius: 50%;
+  animation: dots 1.2s linear infinite;
+}
+
+.dot-loader div:nth-child(1) { animation-delay: 0s; transform: rotate(0deg) translateY(-20px); }
+.dot-loader div:nth-child(2) { animation-delay: 0.15s; transform: rotate(45deg) translateY(-20px); }
+.dot-loader div:nth-child(3) { animation-delay: 0.3s; transform: rotate(90deg) translateY(-20px); }
+.dot-loader div:nth-child(4) { animation-delay: 0.45s; transform: rotate(135deg) translateY(-20px); }
+.dot-loader div:nth-child(5) { animation-delay: 0.6s; transform: rotate(180deg) translateY(-20px); }
+.dot-loader div:nth-child(6) { animation-delay: 0.75s; transform: rotate(225deg) translateY(-20px); }
+.dot-loader div:nth-child(7) { animation-delay: 0.9s; transform: rotate(270deg) translateY(-20px); }
+.dot-loader div:nth-child(8) { animation-delay: 1.05s; transform: rotate(315deg) translateY(-20px); }
+
+@keyframes dots {
+  0% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+
 </style>

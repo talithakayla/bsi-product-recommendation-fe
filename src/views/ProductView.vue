@@ -1,13 +1,5 @@
 <template>
   <section class="max-w-2/3 mx-auto">
-    <a href="/" class="flex flex-row items-center mt-6 gap-x-2.5">
-      <img
-        src="../assets/chevron-left.svg"
-        alt="chevron-left"
-        class="w-[10px] h-[18px]"
-      />
-      <p class="font-semibold">Kembali</p>
-    </a>
     <div class="relative w-full mx-auto">
       <img
         :src="productData.image_uri"

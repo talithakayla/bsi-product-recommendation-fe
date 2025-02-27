@@ -1,7 +1,7 @@
 <template>
   <main class="w-full px-4 mt-10 mb-[50px]">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 md:gap-8 lg:gap-12 xl:gap-20">
+      <div class="lg:ml-auto">
         <div
           class="flex items-center justify-center lg:justify-normal mb-6 lg:ml-[200px]"
         >
@@ -288,7 +288,7 @@
           </form>
         </div>
       </div>
-      <div>
+      <div class="lg:mr-auto">
         <Carousel
           v-if="!recommendations.length && !loading"
           :items="carouselItems"
